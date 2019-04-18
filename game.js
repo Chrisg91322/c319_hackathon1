@@ -2,10 +2,11 @@ $(document).ready(startApp);
 
 function startApp () {
     main = new Maingame();
-    var clickFrog = main.clickFrog;
-    $('.board').on('click', '.frog', clickFrog);
     var clickTile = main.clickTile;
     $('.tile').on('click', clickTile);
+    var clickFrog = main.clickFrog;
+    $('.board').on('click', '.frog', clickFrog);
+  
 }
 
 class Maingame {
@@ -20,13 +21,20 @@ class Maingame {
         this.clickTile = this.clickTile.bind(this);
         this.clickFrog = this.clickFrog.bind(this);
         this.firstFrogClicked = null;    
+        this.jumpCanBeMade;
+
 
     }
     
     clickTile (event) {
+        console.log(event);
+
+        if (!$(event.currentTarget).children().hasClass('frog') && this.jumpCanBeMade === false){
+            return;
+        }
         this.frogTile = $('<div>').addClass('frog');
         console.log('this is frogtile: ', this.frogTile)
-        var data = $(event.target).data();
+        var data = $(event.currentTarget).data();
         console.log(data);
         this.row = data.row;
         this.column = data.column;
@@ -61,7 +69,6 @@ class Maingame {
         this.jumpedFrogLeft;
         this.firstTileClicked;
         this.secondTileClicked;
-        this.jumpCanBeMade;
 
 
         this.frogUp = this.board[this.row -1] ? this.board[this.row-1][this.column] : null;
@@ -82,47 +89,47 @@ class Maingame {
 
    
         if ((this.jumpCanBeMade === true && this.jumpUpTileDataRow === this.row && this.jumpUpTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpDownTileDataRow === this.row && this.jumpDownTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpLeftTileDataRow === this.row && this.jumpLeftTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpRightTileDataRow === this.row && this.jumpRightTileDataColumn === this.column)){
-            if (this.firstFrogClicked!==null && $(event.target).children().length === 0) {
-            this.board[$(this.firstFrogClicked).data('row')][$(this.firstFrogClicked).data('column')] = 0;
-            $(this.firstFrogClicked).remove();
-            if (this.row === this.jumpUpTileDataRow && this.column === this.jumpUpTileDataColumn){
-            this.board[$(this.jumpedFrogUp).data('row')][$(this.jumpedFrogUp).data('column')] = 0;
-            this.board[$(this.targetUpTile).data('row')][$(this.targetUpTile).data('column')] = 1;
-            this.targetTile = this.targetUpTile;
-            this.targetTileRow = $(this.targetTile).data('row');
-            this.targetTileColumn = $(this.targetTile).data('column');
-            $(this.jumpedFrogUp).remove();
-            // console.log('this.frogTile details:', this.frogTile)
-            // console.log(this.board);
-            // this.jumpCanBeMade = false;
-        }
-        else if (this.row === this.jumpDownTileDataRow && this.column === this.jumpDownTileDataColumn){
-            this.board[$(this.jumpedFrogDown).data('row')][$(this.jumpedFrogDown).data('column')] = 0;
-            this.board[$(this.targetDownTile).data('row')][$(this.targetDownTile).data('column')] = 1;
-            this.targetTile = this.targetDownTile
-            this.targetTileRow = $(this.targetTile).data('row')
-            this.targetTileColumn = $(this.targetTile).data('column')
-            $(this.jumpedFrogDown).remove()
-        }
-        else if (this.row === this.jumpLeftTileDataRow && this.column === this.jumpLeftTileDataColumn){
-            this.board[$(this.jumpedFrogLeft).data('row')][$(this.jumpedFrogLeft).data('column')] = 0;
-            this.board[$(this.targetLeftTile).data('row')][$(this.targetLeftTile).data('column')] = 1;
-            this.targetTile = this.targetLeftTile;
-            this.targetTileRow = $(this.targetTile).data('row')
-            this.targetTileColumn = $(this.targetTile).data('column')
-            $(this.jumpedFrogLeft).remove()
-        }
-        else if (this.row === this.jumpRightTileDataRow && this.column === this.jumpRightTileDataColumn){
-            this.board[$(this.jumpedFrogRight).data('row')][$(this.jumpedFrogRight).data('column')] = 0;
-            this.board[$(this.targetRightTile).data('row')][$(this.targetRightTile).data('column')] = 1;
-            this.targetTile = this.targetRightTile
-            this.targetTileRow = $(this.targetTile).data('row')
-            this.targetTileColumn = $(this.targetTile).data('column')
-            $(this.jumpedFrogRight).remove()
-        }
-        $(event.target).append(this.frogTile.attr('data-row', this.targetTileRow).attr('data-column', this.targetTileColumn));
+            if (this.firstFrogClicked!==null && $(event.currentTarget).children().length === 0) {
+                this.board[$(this.firstFrogClicked).data('row')][$(this.firstFrogClicked).data('column')] = 0;
+                $(this.firstFrogClicked).remove();
+                if (this.row === this.jumpUpTileDataRow && this.column === this.jumpUpTileDataColumn){
+                    this.board[$(this.jumpedFrogUp).data('row')][$(this.jumpedFrogUp).data('column')] = 0;
+                    this.board[$(this.targetUpTile).data('row')][$(this.targetUpTile).data('column')] = 1;
+                    this.targetTile = this.targetUpTile;
+                    this.targetTileRow = $(this.targetTile).data('row');
+                    this.targetTileColumn = $(this.targetTile).data('column');
+                    $(this.jumpedFrogUp).remove();
+                    // console.log('this.frogTile details:', this.frogTile)
+                    // console.log(this.board);
+                    // this.jumpCanBeMade = false;
+                }
+                else if (this.row === this.jumpDownTileDataRow && this.column === this.jumpDownTileDataColumn){
+                    this.board[$(this.jumpedFrogDown).data('row')][$(this.jumpedFrogDown).data('column')] = 0;
+                    this.board[$(this.targetDownTile).data('row')][$(this.targetDownTile).data('column')] = 1;
+                    this.targetTile = this.targetDownTile
+                    this.targetTileRow = $(this.targetTile).data('row')
+                    this.targetTileColumn = $(this.targetTile).data('column')
+                    $(this.jumpedFrogDown).remove()
+                }
+                else if (this.row === this.jumpLeftTileDataRow && this.column === this.jumpLeftTileDataColumn){
+                    this.board[$(this.jumpedFrogLeft).data('row')][$(this.jumpedFrogLeft).data('column')] = 0;
+                    this.board[$(this.targetLeftTile).data('row')][$(this.targetLeftTile).data('column')] = 1;
+                    this.targetTile = this.targetLeftTile;
+                    this.targetTileRow = $(this.targetTile).data('row')
+                    this.targetTileColumn = $(this.targetTile).data('column')
+                    $(this.jumpedFrogLeft).remove()
+                }
+                else if (this.row === this.jumpRightTileDataRow && this.column === this.jumpRightTileDataColumn){
+                    this.board[$(this.jumpedFrogRight).data('row')][$(this.jumpedFrogRight).data('column')] = 0;
+                    this.board[$(this.targetRightTile).data('row')][$(this.targetRightTile).data('column')] = 1;
+                    this.targetTile = this.targetRightTile
+                    this.targetTileRow = $(this.targetTile).data('row')
+                    this.targetTileColumn = $(this.targetTile).data('column')
+                    $(this.jumpedFrogRight).remove()
+                }
+        $(event.currentTarget).append(this.frogTile.attr('data-row', this.targetTileRow).attr('data-column', this.targetTileColumn));
         console.log('frogTile details:', this.frogTile)
-        console.log(board);
+        console.log(this.board);
         this.jumpCanBeMade = false;
         this.firstFrogClicked = null;
         this.jumpUpTile = null;
@@ -157,7 +164,7 @@ class Maingame {
                 this.targetUpTile = this.jumpUpTile;
                 this.jumpUpTileDataRow = $(this.jumpUpTile).data('row');
                 this.jumpUpTileDataColumn = $(this.jumpUpTile).data('column');
-                this.firstTileClicked=this;
+                
                 $(this.jumpUpTile).css('border', '5px solid black');
                 this.jumpCanBeMade = true;
                 this.firstFrogClicked = null; 
@@ -173,7 +180,7 @@ class Maingame {
                 this.targetDownTile = this.jumpDownTile;
                 this.jumpDownTileDataRow = $(this.jumpDownTile).data('row');
                 this.jumpDownTileDataColumn = $(this.jumpDownTile).data('column');
-                this.firstTileClicked=this;
+                
                 console.log(this.jumpDownTile)
 
                 this.jumpCanBeMade = true;
@@ -190,7 +197,7 @@ class Maingame {
                 this.targetLeftTile = this.jumpLeftTile;
                 this.jumpLeftTileDataRow = $(this.jumpLeftTile).data('row');
                 this.jumpLeftTileDataColumn = $(this.jumpLeftTile).data('column');
-                this.firstTileClicked=this;
+                
                 console.log(this.jumpLeftTile)
 
                 this.jumpCanBeMade = true;
@@ -207,7 +214,7 @@ class Maingame {
                 this.targetRightTile = this.jumpRightTile;
                 this.jumpRightTileDataRow = $(this.jumpRightTile).data('row');
                 this.jumpRightTileDataColumn = $(this.jumpRightTile).data('column');
-                this.firstTileClicked=this;
+                
                 console.log(this.jumpRightTile)
                 
                 this.jumpCanBeMade = true;
@@ -218,7 +225,10 @@ class Maingame {
             }
         }
     }
-    clickFrog () {
+    clickFrog (event) {
+        
+        console.log(event);
+
         if (this.jumpUpTile !==undefined || this.jumpDownTile !==undefined || this.jumpLeftTile !==undefined || this.jumpRightTile !==undefined){
             if ($(event.target).hasClass('frog') && this.firstFrogClicked !==null){
                 this.firstFrogClicked = this;
