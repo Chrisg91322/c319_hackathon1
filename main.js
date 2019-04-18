@@ -10,37 +10,6 @@ var board = [
 
 function startApp ()
 {
-    // allFrogs = [
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs(),
-    //     new Frogs()
-    // ]
-        // for (var i=0; i < allFrogs.length; i++){
-        //     var domElement = allFrogs[i].render();
-        //     $('body').append(domElement);
-        // }
-
     $('.tile').on('click', clickTile)
 }
 
