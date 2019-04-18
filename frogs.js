@@ -3,7 +3,7 @@ class Frogs{
         this.frogArray = [{
             
             'frog': 'brown',
-            'img': "images/brown_frog.jpg"
+            'img': "c319_hackathon1/images/brown_frog1.png"
         }, {
             
             'frog': 'red',
@@ -15,13 +15,13 @@ class Frogs{
         }, {
            
             'frog': 'blue',
-            'img': "images/blue_frog.jpg"
+            'img': "c319_hackathon1/images/blue_frog1.png"
         }];
 
         var gameTile = frogArray.concat(frogArray).sort(function (){
             return 0.5 - Math.random();
         })
-        var totalFrogs = 24;
+        
         this.domElement = null;
 
         var tile = document.createElement('section');
@@ -34,3 +34,4 @@ class Frogs{
     })
 
 }}
+var totalFrogs = 24;
