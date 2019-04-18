@@ -9,6 +9,17 @@ var board = [
 ]
 var frogTile;
 var jumpUpTile;
+var jumpUpTileDataRow;
+var jumpUpTileDataColumn;
+var jumpDownTile;
+var jumpDownTileDataRow;
+var jumpDownTileDataColumn;
+var jumpLeftTile;
+var jumpLeftTileDataRow;
+var jumpLeftTileDataColumn;
+var jumpRightTile;
+var jumpRightTileDataRow;
+var jumpRightTileDataColumn;
 var jumpOptions = {
     up:null,
     down: null,
@@ -36,8 +47,8 @@ function clickTile () {
     frogTile = $('<div>').addClass('frog')
     console.log('this is frogtile: ', frogTile)
     var data = $(this).data();
-    var row = data.row;
-    var column = data.column
+    var row = $(this).data('row');
+    var column = $(this).data('column')
     var arrayNum = board[row][column]
     var frogUp = board[row -1] ? board[row-1][column] : null;
     var jumpUp = board[row-2] ? board[row-2][column]: null;
@@ -55,7 +66,8 @@ function clickTile () {
     console.log ('move left: ', row, column-1)
     console.log('this is: ', this)
     // if (previousRow === row && previousColumn === column) {
-    if (jumpCanBeMade === true){
+    if ((jumpCanBeMade === true && jumpUpTileDataRow === $(this).data('row') && jumpUpTileDataColumn === $(this).data('column'))||(jumpCanBeMade === true && jumpDownTileDataRow === $(this).data('row') && jumpDownTileDataColumn === $(this).data('column'))||(jumpCanBeMade === true && jumpLeftTileDataRow === $(this).data('row') && jumpLeftTileDataColumn === $(this).data('column'))||(jumpCanBeMade === true && jumpRightTileDataRow === $(this).data('row') && jumpRightTileDataColumn === $(this).data('column')))
+        {
         board[$(firstFrogClicked).data('row')][$(firstFrogClicked).data('column')] = 0;
         board[$(jumpedFrog).data('row')][$(jumpedFrog).data('column')] = 0;
         board[$(targetTile).data('row')][$(targetTile).data('column')] = 1;
@@ -69,9 +81,12 @@ function clickTile () {
     if (frogUp === 1 && frogUp !==undefined){
         console.log('frog above')
         if (jumpUp === 0 && jumpUp !== undefined){
-            jumpUpTile = ('.tile[data-row = "' + (row-2) + '"][data-column ="' + column + '"]')
+            jumpUpTile = $('.tile[data-row = "' + (row-2) + '"][data-column ="' + column + '"]')
             targetTile=jumpUpTile;
-            $(jumpUpTile).css('border', '5px solid black')
+            jumpUpTileDataRow = jumpUpTile.data('row')
+            jumpUpTileDataColumn = jumpUpTile.data('column')
+            firstTileClicked=this;
+            (jumpUpTile).css('border', '5px solid black')
             previousRow = row-2;
             previousColumn = column
             jumpCanBeMade = true;
@@ -83,7 +98,10 @@ function clickTile () {
     if (frogDown === 1 && frogDown !==undefined){
         console.log('frog below')
         if (jumpDown === 0 && jumpDown !== undefined){
-            var jumpDownTile = $('.tile[data-row = "' + (row+2) + '"][data-column ="' + column + '"]')
+            jumpDownTile = $('.tile[data-row = "' + (row+2) + '"][data-column ="' + column + '"]')
+            jumpDownTileDataRow = jumpDownTile.data('row')
+            jumpDownTileDataColumn = jumpDownTile.data('column')
+            firstTileClicked=this;
             targetTile=jumpDownTile;
             console.log(jumpDownTile)
             previousRow = row+2;
@@ -97,7 +115,10 @@ function clickTile () {
     if (frogLeft === 1 && frogLeft !==undefined){
         console.log('frog on left')
         if (jumpLeft === 0 && jumpLeft !== undefined){
-            var jumpLeftTile = $('.tile[data-row = "' + row + '"][data-column ="' + (column-2) + '"]')
+            jumpLeftTile = $('.tile[data-row = "' + row + '"][data-column ="' + (column-2) + '"]')
+            jumpLeftTileDataRow = jumpLeftTile.data('row')
+            jumpLeftTileDataColumn = jumpLeftTile.data('column')
+            firstTileClicked=this;
             targetTile=jumpLeftTile;
             console.log(jumpLeftTile)
             previousRow = row;
@@ -111,7 +132,9 @@ function clickTile () {
     if (frogRight === 1 && frogRight !==undefined){
         console.log('frog on right')
         if (jumpRight === 0 && jumpRight !== undefined){
-            var jumpRightTile = $('.tile[data-row = "' + row + '"][data-column ="' + (column+2) + '"]')
+            jumpRightTile = $('.tile[data-row = "' + row + '"][data-column ="' + (column+2) + '"]')
+            jumpRightTileDataRow = jumpRightTile.data('row')
+            jumpRightTileDataColumn = jumpRightTile.data('column')
             targetTile=jumpRightTile;
             console.log(jumpRightTile)
             previousRow = row;
