@@ -7,24 +7,21 @@ class Players{
             trophies: 0
         }
         this.domElement = null;
-        this.currentRider
-    debugger;
-    if(this.name == 'Green Rider'){
-        return name++;
-        }else{
-            return name++;   
-        }
-        this.currentRider.changePoints(trophies);
-        }
-      
+        
 
+    }    
+ 
     changeTurns(){
-        this.playerTurn = !this.playerTurn;
-    }
+        if(this.name == 'Green Rider'){
+            return player++;
+            }if(this.name !== 'Green Rider'){
+                return player--; 
+            }
+        }
 }
-
 var player = [new Players("Green Rider"), new Players("Purple Rider")];
-var playerTurn = true;
-var currentRider = player[0];
-var opposingRider = player[1];
+this.currentPlayer = player[0];
+this.opposingPlayer = player[1];
 
+// }else if(this.name !== 'Purple Rider')
+// return player[0];
