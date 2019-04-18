@@ -5,8 +5,7 @@ function startApp () {
     var clickTile = main.clickTile;
     $('.tile').on('click', clickTile);
     var clickFrog = main.clickFrog;
-    $('.board').on('click', '.frog', clickFrog);
-  
+    $('.board').on('click', '.frog', clickFrog);  
 }
 
 class Maingame {
@@ -22,8 +21,84 @@ class Maingame {
         this.clickFrog = this.clickFrog.bind(this);
         this.firstFrogClicked = null;    
         this.jumpCanBeMade;
+        this.legalJumpUp=0;
+        this.legalJumpDown=0;
+        this.legalJumpLeft=0;
+        this.legalJumpRight=0;
+        this.legalJumpUpRemaining=null;
+        this.legalJumpDownRemaining=null;
+        this.legalJumpLeftRemaining=null;
+        this.legalJumpRightRemaining=null;
 
+    }
 
+    checkEndGame () {
+        for (var index=0; index<this.board.length; index++){
+            for (var innerIndex=0; innerIndex<this.board[0].length; innerIndex++){
+                var legalJumpCheck = this.board[index][innerIndex];
+                if (this.board[index][innerIndex] === 1){
+                    if (innerIndex < this.board[0].length-2){
+                        if (this.board[index][innerIndex+1] === 1){ //neighbor right
+                            if (this.board[index][innerIndex+2] === 0){ //empty space right of neighbor
+                                console.log('legaljumpright true')
+                                this.legalJumpRight++;
+                            }
+                    }
+                }
+                    if (innerIndex >1){
+                        if (this.board[index][innerIndex-1] === 1){
+                            if (this.board[index][innerIndex-2] === 0){
+                                this.legalJumpLeft++;
+                                console.log('legaljumpleft true')
+                            }
+                        }
+                }
+                    
+
+                    if (index<this.board[0].length-2){
+                        if (this.board[index+1][innerIndex] === 1){
+                            if (this.board[index+2][innerIndex] === 0){
+                                this.legalJumpDown++;
+                                console.log('legaljumpdown true')
+                        }
+                    }
+                    }
+
+                    if(index>1){
+                        if (this.board[index-1][innerIndex] === 1){
+                            if (this.board[index-2][innerIndex] === 0){
+                                console.log('legaljumpup true')
+                                this.legalJumpUp++;
+                            }
+                        }
+                    }
+            }
+            }
+        }
+        if (this.legalJumpUp > 0){
+            this.legalJumpUpRemaining=true;
+        }
+        else{this.legalJumpUpRemaining=false}
+        if (this.legalJumpDown > 0){
+            this.legalJumpDownRemaining=true;
+        }
+        else{this.legalJumpDownRemaining=false}
+        if (this.legalJumpLeft > 0){
+            this.legalJumpLeftRemaining=true;
+        }
+        else{this.legalJumpLeftRemaining=false}
+        if (this.legalJumpRight > 0){
+            this.legalJumpRightRemaining=true;
+        }
+        else{this.legalJumpRightRemaining=false}
+
+        if (this.legalJumpUpRemaining === false && this.legalJumpDownRemaining === false && this.legalJumpLeftRemaining === false && this.legalJumpRightRemaining === false){
+            console.log('GAME END GAME END GAME END')
+        }
+        this.legalJumpUp=0;
+        this.legalJumpDown=0;
+        this.legalJumpLeft=0;
+        this.legalJumpRight=0;
     }
     
     clickTile (event) {
@@ -87,7 +162,6 @@ class Maingame {
         console.log ('move left: ', this.row, this.column-1);
         console.log('this is: ', this)
 
-   
         if ((this.jumpCanBeMade === true && this.jumpUpTileDataRow === this.row && this.jumpUpTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpDownTileDataRow === this.row && this.jumpDownTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpLeftTileDataRow === this.row && this.jumpLeftTileDataColumn === this.column)||(this.jumpCanBeMade === true && this.jumpRightTileDataRow === this.row && this.jumpRightTileDataColumn === this.column)){
             if (this.firstFrogClicked!==null && $(event.currentTarget).children().length === 0) {
                 this.board[$(this.firstFrogClicked).data('row')][$(this.firstFrogClicked).data('column')] = 0;
@@ -132,15 +206,19 @@ class Maingame {
         console.log(this.board);
         this.jumpCanBeMade = false;
         this.firstFrogClicked = null;
+        $(this.jumpUpTile).css('box-shadow', 'none');
         this.jumpUpTile = null;
         this.jumpUpTileDataRow = null;
         this.jumpUpTileDataColumn = null;
+        $(this.jumpDownTile).css('box-shadow', 'none');
         this.jumpDownTile = null;
         this.jumpDownTileDataRow = null;
         this.jumpDownTileDataColumn = null;
+        $(this.jumpLeftTile).css('box-shadow', 'none');
         this.jumpLeftTile = null;
         this.jumpLeftTileDataRow = null;
         this.jumpLeftTileDataColumn = null;
+        $(this.jumpRightTile).css('box-shadow', 'none');
         this.jumpRightTile = null;
         this.jumpRightTileDataRow = null;
         this.jumpRightTileDataColumn = null;
@@ -160,13 +238,15 @@ class Maingame {
         if (this.frogUp === 1 && this.frogUp !==undefined){
             console.log('frog above')
             if (this.jumpUp === 0 && this.jumpUp !== undefined){
+                $(this.jumpUpTile).css('box-shadow', 'none')
                 this.jumpUpTile = ('.tile[data-row = "' + (this.row-2) + '"][data-column ="' + this.column + '"]')
                 this.targetUpTile = this.jumpUpTile;
                 this.jumpUpTileDataRow = $(this.jumpUpTile).data('row');
                 this.jumpUpTileDataColumn = $(this.jumpUpTile).data('column');
                 
-                $(this.jumpUpTile).css('border', '5px solid black');
+                $(this.jumpUpTile).css('box-shadow', '0 0 20px blue');
                 this.jumpCanBeMade = true;
+                $(this.firstFrogClicked).css('box-shadow', 'none')
                 this.firstFrogClicked = null; 
                 this.jumpedFrogUp = ('.frog[data-row = "' + (this.row-1) + '"][data-column ="' + this.column + '"]')
                 console.log('can jump up', this.jumpUpTile)
@@ -176,6 +256,7 @@ class Maingame {
         if (this.frogDown === 1 && this.frogDown !==undefined){
             console.log('frog below')
             if (this.jumpDown === 0 && this.jumpDown !== undefined){
+                $(this.jumpDownTile).css('box-shadow', 'none')
                 this.jumpDownTile = $('.tile[data-row = "' + (this.row+2) + '"][data-column ="' + this.column + '"]')
                 this.targetDownTile = this.jumpDownTile;
                 this.jumpDownTileDataRow = $(this.jumpDownTile).data('row');
@@ -184,8 +265,9 @@ class Maingame {
                 console.log(this.jumpDownTile)
 
                 this.jumpCanBeMade = true;
+                $(this.firstFrogClicked).css('box-shadow', 'none')
                 this.firstFrogClicked = null; 
-                this.jumpDownTile.css('border', '5px solid black')
+                this.jumpDownTile.css('box-shadow', '0 0 20px blue')
                 this.jumpedFrogDown = ('.frog[data-row = "' + (this.row+1) + '"][data-column ="' + this.column + '"]')
                 console.log('can jump down')
             }
@@ -193,6 +275,7 @@ class Maingame {
         if (this.frogLeft === 1 && this.frogLeft !==undefined){
             console.log('frog on left')
             if (this.jumpLeft === 0 && this.jumpLeft !== undefined){
+                $(this.jumpLeftTile).css('box-shadow', 'none')
                 this.jumpLeftTile = $('.tile[data-row = "' + this.row + '"][data-column ="' + (this.column-2) + '"]')
                 this.targetLeftTile = this.jumpLeftTile;
                 this.jumpLeftTileDataRow = $(this.jumpLeftTile).data('row');
@@ -201,8 +284,9 @@ class Maingame {
                 console.log(this.jumpLeftTile)
 
                 this.jumpCanBeMade = true;
+                $(this.firstFrogClicked).css('box-shadow', 'none')
                 this.firstFrogClicked = null; 
-                this.jumpLeftTile.css('border', '5px solid black')
+                this.jumpLeftTile.css('box-shadow', '0 0 20px blue')
                 this.jumpedFrogLeft = ('.frog[data-row = "' + (this.row) + '"][data-column ="' + (this.column-1) + '"]')
                 console.log('can jump left')
             }
@@ -210,6 +294,7 @@ class Maingame {
         if (this.frogRight === 1 && this.frogRight !==undefined){
             console.log('frog on right')
             if (this.jumpRight === 0 && this.jumpRight !== undefined){
+                $(this.jumpRightTile).css('box-shadow', 'none')
                 this.jumpRightTile = $('.tile[data-row = "' + this.row + '"][data-column ="' + (this.column+2) + '"]')
                 this.targetRightTile = this.jumpRightTile;
                 this.jumpRightTileDataRow = $(this.jumpRightTile).data('row');
@@ -218,20 +303,26 @@ class Maingame {
                 console.log(this.jumpRightTile)
                 
                 this.jumpCanBeMade = true;
+                $(this.firstFrogClicked).css('box-shadow', 'none')
                 this.firstFrogClicked = null; 
-                this.jumpRightTile.css('border', '5px solid black')
+                this.jumpRightTile.css('box-shadow', '0 0 20px blue')
                 this.jumpedFrogRight = ('.frog[data-row = "' + this.row + '"][data-column ="' + (this.column+1) + '"]')
                 console.log('can jump right')
             }
         }
+        this.checkEndGame();
     }
-    clickFrog (event) {
-        
+    clickFrog (event) {        
         console.log(event);
+        $(this.firstFrogClicked).css('box-shadow', 'none')
 
         if (this.jumpUpTile !==undefined || this.jumpDownTile !==undefined || this.jumpLeftTile !==undefined || this.jumpRightTile !==undefined){
             if ($(event.target).hasClass('frog') && this.firstFrogClicked !==null){
-                this.firstFrogClicked = this;
+                this.firstFrogClicked = $(event.target);
+                $(this.jumpUpTile).css('box-shadow', 'none')
+                $(this.jumpDownTile).css('box-shadow', 'none')
+                $(this.jumpLeftTile).css('box-shadow', 'none')
+                $(this.jumpRightTile).css('box-shadow', 'none')
                 this.jumpUpTile = null;
                 this.jumpUpTileDataRow = null;
                 this.jumpUpTileDataColumn = null;
@@ -246,7 +337,8 @@ class Maingame {
                 this.jumpRightTileDataColumn = null;
             }
         this.firstFrogClicked = $(event.target);
-        $(this.firstFrogClicked).css('border', '5px black solid')
+    
+        $(this.firstFrogClicked).css('box-shadow', '0 0 20px yellow')
         console.log(this.firstFrogClicked);
         // console.log('this frog is: ', this.firstFrogClicked)
     }
