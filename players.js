@@ -3,44 +3,58 @@ $(document).ready(startApp);
 
 
 function startApp(){
-    $('.frog').text("Trophy Points: " + player1.trophy.points)
-    $('.frog').text("Trophy Points: " + player1.trophy.points)
-   
+    
+    player1 = new Players('Green Rider');
+    player2 = new Players('Purple Rider');
+    playerTurn = true;
   
 }
 class Players{
     constructor(playerName, image, currentPlayer){
         this.playerName = playerName;
         this.image = image;
-        this.currentPlayer = currentPlayer;
-        this.currentPlayer = this.currentPlayer.bind(this);
+        this.trophy = {
+            points: 0
+        }
+        this.currentPlayer = this;
+        this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
         this.changeTurns = this.changeTurns.bind(this);
         this.domElement = null;
+
         
     }    
-    currentPlayer(){
-       
-        if (playerTurn){
-            player1.changePoints(trophy);
-            player1.jumpedFrog(frogs);
+    setCurrentPlayer(){
+        
+        if (this.currentPlayer === player1){
+            return true;
             console.log('current player is :' + player1);
-        }else{
-            player2.changePoints(trophy);
-            player2.jumpedFrog(frogs);
+        }if(this.currentPlayer !== player1){
+            return false;
             console.log('current player is :' + player2);
         }
         changeTurns();
         updatePoints();
     }
     changeTurns(){
-        playerTurn = !playerTurn
+        // this.currentPlayer = null;
+        if(this.currentPlayer === player1){
+            this.playerTurn = false;
+            this.currentPlayer = player2;
+        }else if(this.currentPlayer === player2){
+            this.playerTurn = false;
+            this.currentPlayer = player1;
+        }
+
     }
     updatePoints(){
-        $('.frog').text("Trophy Points: " + player1.trophy.points)
-        $('.frog').text("Trophy Points: " + player1.trophy.points)
+        $('.points .value').text(points)
+        if(this.jumpedFrogUp || this.jumpedFrogDown || this.jumpedFrogLeft || this.jumpedFrogRight === true){
+            points++;
+        }
+        
     }
     changeTrophyPoints(){
-        this.trophy.points += amount;
+        this.trophy.points += 1;
         if(this.trophy.points >= 13){
             if(this.trophy.points == 13){
             $('#modal').toggleClass('hide');
@@ -64,10 +78,8 @@ class Players{
         
     }
 }
-player1 = new Players('Green Rider');
-player2 = new Players('Purple Rider');
-playerTurn = true;
 
+var points = 0;
 $(function() {
     $("img").click(function(){
         $("img").toggle()

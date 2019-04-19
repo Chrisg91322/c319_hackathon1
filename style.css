@@ -65,7 +65,7 @@ body {
     top: 10%;
     border: 2px solid black;
     border-radius: 10px;
-    background: url('/Users/chrisg/Desktop/lfz/c319_hackathon1/images/brown_frog1.png') no-repeat center center / cover;
+    background: url('images/brown_frog1.png') no-repeat center center / cover;
     background-size: 150px 150px;
     position: absolute;
 }
