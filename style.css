@@ -1,8 +1,9 @@
-body {
+.gameContainer {
     height: 100vh;
     width: 100vw;
     background-image: url("images/bg.png");
-    background-size: contain;
+    background-size: cover;
+    position: relative;
 }
 .playerContainer{
     height: 60%;
@@ -42,8 +43,13 @@ body {
     font-size: 30px;
     text-align: center;
 }
+/* .boardContainer {
+    transform: rotate(45deg);
+    top: 20%;
+    left: 10%;
+    position: absolute;
+} */
 .board {
-    /* transform: rotate(45deg); */
     display: grid;
     grid-template-columns: repeat(5, 120px);
     grid-template-rows: repeat(5, 120px);
