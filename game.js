@@ -6,7 +6,10 @@ function startApp() {
     main.gameFunction = new GameFunction(main);
     $('.tile').on('click', main.clickTile);
     $('.board').on('click', '.frog', main.clickFrog);
-    player = new Players()
+    player = new Players();
+    main.gameFunction.modalHide();
+
+
 }
 
 class Maingame {

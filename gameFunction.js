@@ -1,4 +1,4 @@
-$(document).ready(startApp)
+$(document).ready(startApp);
 
 function startApp (){
     
@@ -68,13 +68,35 @@ class GameFunction {
 
         if (this.game.legalJumpUpRethising === false && this.game.legalJumpDownRethising === false && this.game.legalJumpLeftRethising === false && this.game.legalJumpRightRethising === false) {
             console.log('GAME END GAME END GAME END')
+            this.gameWinModal();
+
         }
         this.game.legalJumpUp = 0;
         this.game.legalJumpDown = 0;
         this.game.legalJumpLeft = 0;
         this.game.legalJumpRight = 0;
     }
+    modalHide() {
+        $("#win-game-modal").modal('hide');
+        $("#tie-game-modal").modal('hide');
 
+    }
+    gameWinModal () {
+        //run this method in endGame function
+        if (player1.trophy.points > player2.trophy.points) {
+            $("#win-game-modal").modal('show');
+            $('.modal-title').text('Player 1 WINS!')
+        } else if (player1.trophy.points < player2.trophy.points){
+            $("#win-game-modal").modal('show');
+            $('.modal-title').text('Player 2 WINS!')
+        }
+        else {
+            $("#tie-game-modal").modal('show');
+            $('.modal-title').text('TIE GAME!');
+
+        } 
+        
+    }
     resetTiles () {
         this.game.jumpCanBeMade = false;
         $(this.game.firstFrogClicked).css('box-shadow', 'none')

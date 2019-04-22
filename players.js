@@ -68,13 +68,7 @@ class Players{
         }
         return this.trophy.points;
     }
-    winCondition(player1, player2){
-        if(player1.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }else if( player2.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }
-    }
+
     render(){
         this.domElement = $('<div>')
             .addClass('front')
@@ -83,13 +77,5 @@ class Players{
         
     }
 }
-
-
-// var player = [new Players("Green Rider"), new Players("Purple Rider")];
-// this.currentPlayer = player[0];
-// this.opposingPlayer = player[1];
-
-// }else if(this.name !== 'Purple Rider')
-// return player[0];
 
 
