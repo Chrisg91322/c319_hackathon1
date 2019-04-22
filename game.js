@@ -93,6 +93,7 @@ frogUp() {
         }
     }
     updatePoints();
+    changeTurns();
     console.log('Point added for jump up');
 }
 
@@ -103,6 +104,7 @@ frogDown() {
         }
     }
     updatePoints();
+    changeTurns();
     console.log('Point added for jump down');
 }
 
@@ -113,6 +115,7 @@ frogLeft() {
         }
     }
     updatePoints();
+    changeTurns();
     $('.')
     console.log('Point added for jump left');
 }
@@ -123,6 +126,7 @@ frogRight() {
             points++;
         }
         updatePoints();
+        changeTurns();
         console.log('Point added for jump right');
     }
 }
