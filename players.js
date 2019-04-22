@@ -36,30 +36,29 @@ class Players{
             player2.currentPlayer = false;      
         }
         
-        // updatePoints();
     }
     changeTurns(){
-        // debugger;
         if(player1.currentPlayer === true){
             player1.trophy.points++;
+            this.updatePoints();
             this.setCurrentPlayer();
 
         }else if(player2.currentPlayer === true){
             player2.trophy.points++;
+            this.updatePoints();
             this.setCurrentPlayer();
         }
 
     }
     updatePoints(){
-        $('.points .value').text(points)
-        if(this.jumpedFrogUp || this.jumpedFrogDown || this.jumpedFrogLeft || this.jumpedFrogRight === true){
-            // points++;
-        }
-        
+        if(player1.currentPlayer === true){
+            $('.value1').text('Points: ' + player1.trophy.points);
+        }else if(player2.currentPlayer === true){
+            $('.value2').text('Points: ' + player2.trophy.points);
+        }       
     }
     changeTrophyPoints(){
       
-        // this.trophy.points += 1;
         if(this.trophy.points >= 13){
             if(this.trophy.points == 13){
             $('#modal').toggleClass('hide');
@@ -68,13 +67,7 @@ class Players{
         }
         return this.trophy.points;
     }
-    winCondition(player1, player2){
-        if(player1.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }else if( player2.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }
-    }
+    
     render(){
         this.domElement = $('<div>')
             .addClass('front')
@@ -85,11 +78,5 @@ class Players{
 }
 
 
-// var player = [new Players("Green Rider"), new Players("Purple Rider")];
-// this.currentPlayer = player[0];
-// this.opposingPlayer = player[1];
-
-// }else if(this.name !== 'Purple Rider')
-// return player[0];
 
 
