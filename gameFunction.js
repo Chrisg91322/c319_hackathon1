@@ -1,12 +1,13 @@
 $(document).ready(startApp)
 
 function startApp (){
-
+    
 }
 
 class GameFunction {
     constructor (gameObj) {
         this.game = gameObj;
+        this.player = new Players();
     }
 
     checkEndGame () {
@@ -15,8 +16,8 @@ class GameFunction {
                 var legalJumpCheck = this.game.board[index][innerIndex];
                 if (this.game.board[index][innerIndex] === 1) {
                     if (innerIndex < this.game.board[0].length - 2) {
-                        if (this.game.board[index][innerIndex + 1] === 1) { //neighbor right
-                            if (this.game.board[index][innerIndex + 2] === 0) { //empty space right of neighbor
+                        if (this.game.board[index][innerIndex + 1] === 1) { 
+                            if (this.game.board[index][innerIndex + 2] === 0) { 
                                 this.game.legalJumpRight++;
                             }
                         }
@@ -147,10 +148,9 @@ removeFrogs () {
                 this.game.targetTileRow = $(this.game.targetTile).data('row');
                 this.game.targetTileColumn = $(this.game.targetTile).data('column');
                 $(this.game.jumpedFrogUp).remove();
-                player1.changeTrophyPoints();
-                player1.changeTurns();
-                player2.changeTrophyPoints();
-                player2.changeTurns();
+                this.player.changeTrophyPoints();
+                this.player.changeTurns();
+                
             }
             else if (this.game.row === this.game.jumpDownTileDataRow && this.game.column === this.game.jumpDownTileDataColumn) {
                 this.game.board[$(this.game.jumpedFrogDown).data('row')][$(this.game.jumpedFrogDown).data('column')] = 0;
@@ -159,9 +159,9 @@ removeFrogs () {
                 this.game.targetTileRow = $(this.game.targetTile).data('row')
                 this.game.targetTileColumn = $(this.game.targetTile).data('column')
                 $(this.game.jumpedFrogDown).remove()
-                player1.changeTrophyPoints();
-                player1.changeTurns();
-                player2.changeTurns();
+                this.player.changeTrophyPoints();
+                this.player.changeTurns();
+               
             }
             else if (this.game.row === this.game.jumpLeftTileDataRow && this.game.column === this.game.jumpLeftTileDataColumn) {
                 this.game.board[$(this.game.jumpedFrogLeft).data('row')][$(this.game.jumpedFrogLeft).data('column')] = 0;
@@ -170,9 +170,9 @@ removeFrogs () {
                 this.game.targetTileRow = $(this.game.targetTile).data('row')
                 this.game.targetTileColumn = $(this.game.targetTile).data('column')
                 $(this.game.jumpedFrogLeft).remove()
-                player1.changeTrophyPoints();
-                player1.changeTurns();
-            }
+                this.player.changeTrophyPoints();
+                this.player.changeTurns();
+            }   
             else if (this.game.row === this.game.jumpRightTileDataRow && this.game.column === this.game.jumpRightTileDataColumn) {
                 this.game.board[$(this.game.jumpedFrogRight).data('row')][$(this.game.jumpedFrogRight).data('column')] = 0;
                 this.game.board[$(this.game.targetRightTile).data('row')][$(this.game.targetRightTile).data('column')] = 1;
@@ -180,8 +180,10 @@ removeFrogs () {
                 this.game.targetTileRow = $(this.game.targetTile).data('row')
                 this.game.targetTileColumn = $(this.game.targetTile).data('column')
                 $(this.game.jumpedFrogRight).remove()
-                player1.changeTrophyPoints();
-                player1.changeTurns();
+                this.player.changeTrophyPoints();
+                this.player.changeTurns();
+                
+                
             }
             $(event.currentTarget).append(this.game.frogTile.attr('data-row', this.game.targetTileRow).attr('data-column', this.game.targetTileColumn));
             this.game.gameFunction.resetTiles();

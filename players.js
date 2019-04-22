@@ -1,57 +1,72 @@
 $(document).ready(startApp);
 
-var playerTurn;
+var player1;
+var player2;
 
 function startApp(){
+ 
+    player1 = new Players('Green Rider');
+    player2 = new Players('Purple Rider');
+    player1.currentPlayer = true;
+    player2.currentPlayer = false;
     playerTurn = true;
+    $('.playerOne').css('box-shadow', '0 0 30px yellow')
   
 }
 class Players{
-    constructor(playerName, image, currentPlayer){
+    constructor(playerName, image){
         this.playerName = playerName;
         this.image = image;
         this.trophy = {
             points: 0
         }
-        this.currentPlayer = this;
+        this.currentPlayer = null;
         this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
         this.changeTurns = this.changeTurns.bind(this);
         this.domElement = null;
+        this.frogTile = $('<div>').addClass('playerFrogs')
 
         
     }    
     setCurrentPlayer(){
         
-        if (this.currentPlayer === player1){
-            return true;
-            console.log('current player is :' + player1);
-        }if(this.currentPlayer !== player1){
-            return false;
-            console.log('current player is :' + player2);
+        if (player1.currentPlayer === true){
+            $('.playerOne').css('box-shadow', 'none')
+            $('.playerTwo').css('box-shadow', '0 0 30px yellow')
+            $('.playerOne .frogContainer').append($('<div>').addClass('playerFrogs'))
+            player2.currentPlayer = true;
+            player1.currentPlayer = false;
+        }else if(player2.currentPlayer === true){
+            $('.playerTwo').css('box-shadow', 'none')
+            $('.playerOne').css('box-shadow', '0 0 30px yellow')
+            $('.playerTwo .frogContainer').append($('<div>').addClass('playerFrogs'))
+            player1.currentPlayer = true;
+            player2.currentPlayer = false;      
         }
-        changeTurns();
-        updatePoints();
+        
     }
     changeTurns(){
-        // this.currentPlayer = null;
-        if(this.currentPlayer === player1){
-            this.playerTurn = false;
-            this.currentPlayer = player2;
-        }else if(this.currentPlayer === player2){
-            this.playerTurn = false;
-            this.currentPlayer = player1;
+        if(player1.currentPlayer === true){
+            player1.trophy.points++;
+            this.updatePoints();
+            this.setCurrentPlayer();
+
+        }else if(player2.currentPlayer === true){
+            player2.trophy.points++;
+            this.updatePoints();
+            this.setCurrentPlayer();
         }
 
     }
     updatePoints(){
-        $('.points .value').text(points)
-        if(this.jumpedFrogUp || this.jumpedFrogDown || this.jumpedFrogLeft || this.jumpedFrogRight === true){
-            points++;
-        }
-        
+        if(player1.currentPlayer === true){
+            $('.value1').text(player1.trophy.points);
+        }else if(player2.currentPlayer === true){
+            $('.value2').text(player2.trophy.points);
+        }       
     }
     changeTrophyPoints(){
-        this.trophy.points += 1;
+      
         if(this.trophy.points >= 13){
             if(this.trophy.points == 13){
             $('#modal').toggleClass('hide');
@@ -60,33 +75,16 @@ class Players{
         }
         return this.trophy.points;
     }
-    winCondition(player1, player2){
-        if(player1.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }else if( player2.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }
-    }
+    
     render(){
         this.domElement = $('<div>')
-        .addClass('front')
-        .text('Current Player')
+            .addClass('front')
+            .text('Current Player')
         return this.domElement;
         
     }
 }
 
-var points = 0;
-$(function() {
-    $("img").click(function(){
-        $("img").toggle()
-    })
-});
-// var player = [new Players("Green Rider"), new Players("Purple Rider")];
-// this.currentPlayer = player[0];
-// this.opposingPlayer = player[1];
 
-// }else if(this.name !== 'Purple Rider')
-// return player[0];
 
 

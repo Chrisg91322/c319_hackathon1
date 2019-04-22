@@ -93,46 +93,5 @@ clickFrog(event) {
         $(this.firstFrogClicked).css('box-shadow', '0 0 20px yellow')
     }
 }
-
-// frogUp() {
-//     if (this.jumpedUpFrog === true) {
-//         if (player1 === true || player2 === true) {
-//             points++;
-//         }
-//     }
-//     updatePoints();
-//     console.log('Point added for jump up');
-// }
-
-// frogDown() {
-//     if (this.jumpedDownFrog === true) {
-//         if (player1 === true || player2 === true) {
-//             points++;
-//         }
-//     }
-//     updatePoints();
-//     console.log('Point added for jump down');
-// }
-
-// frogLeft() {
-//     if (this.jumpedLeftFrog === true) {
-//         if (player1 === true || player2 === true) {
-//             points++;
-//         }
-//     }
-//     updatePoints();
-//     $('.')
-//     console.log('Point added for jump left');
-// }
-
-// frogRight() {
-//     if (this.jumpedRightFrog === true) {
-//         if (player1 === true || player2 === true) {
-//             points++;
-//         }
-//         updatePoints();
-//         console.log('Point added for jump right');
-//     }
-// }
 }
 
