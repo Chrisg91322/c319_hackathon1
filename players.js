@@ -1,22 +1,25 @@
 $(document).ready(startApp);
 
-
+var player1;
+var player2;
 
 function startApp(){
-    
+ 
     player1 = new Players('Green Rider');
     player2 = new Players('Purple Rider');
+    player1.currentPlayer = true;
+    player2.currentPlayer = false;
     playerTurn = true;
   
 }
 class Players{
-    constructor(playerName, image, currentPlayer){
+    constructor(playerName, image){
         this.playerName = playerName;
         this.image = image;
         this.trophy = {
             points: 0
         }
-        this.currentPlayer = this;
+        this.currentPlayer = null;
         this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
         this.changeTurns = this.changeTurns.bind(this);
         this.domElement = null;
@@ -25,36 +28,38 @@ class Players{
     }    
     setCurrentPlayer(){
         
-        if (this.currentPlayer === player1){
-            return true;
-            console.log('current player is :' + player1);
-        }if(this.currentPlayer !== player1){
-            return false;
-            console.log('current player is :' + player2);
+        if (player1.currentPlayer === true){
+            player2.currentPlayer = true;
+            player1.currentPlayer = false;
+        }else if(player2.currentPlayer === true){
+            player1.currentPlayer = true;
+            player2.currentPlayer = false;      
         }
-        changeTurns();
-        updatePoints();
+        
+        // updatePoints();
     }
     changeTurns(){
-        // this.currentPlayer = null;
-        if(this.currentPlayer === player1){
-            this.playerTurn = false;
-            this.currentPlayer = player2;
-        }else if(this.currentPlayer === player2){
-            this.playerTurn = false;
-            this.currentPlayer = player1;
+        // debugger;
+        if(player1.currentPlayer === true){
+            player1.trophy.points++;
+            this.setCurrentPlayer();
+
+        }else if(player2.currentPlayer === true){
+            player2.trophy.points++;
+            this.setCurrentPlayer();
         }
 
     }
     updatePoints(){
         $('.points .value').text(points)
         if(this.jumpedFrogUp || this.jumpedFrogDown || this.jumpedFrogLeft || this.jumpedFrogRight === true){
-            points++;
+            // points++;
         }
         
     }
     changeTrophyPoints(){
-        this.trophy.points += 1;
+      
+        // this.trophy.points += 1;
         if(this.trophy.points >= 13){
             if(this.trophy.points == 13){
             $('#modal').toggleClass('hide');
@@ -72,19 +77,14 @@ class Players{
     }
     render(){
         this.domElement = $('<div>')
-        .addClass('front')
-        .text('Current Player')
+            .addClass('front')
+            .text('Current Player')
         return this.domElement;
         
     }
 }
 
-var points = 0;
-$(function() {
-    $("img").click(function(){
-        $("img").toggle()
-    })
-});
+
 // var player = [new Players("Green Rider"), new Players("Purple Rider")];
 // this.currentPlayer = player[0];
 // this.opposingPlayer = player[1];
