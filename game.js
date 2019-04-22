@@ -1,12 +1,16 @@
 $(document).ready(startApp);
 var main;
-var player;
+var player1;
+var player2;
 function startApp() {
     main = new Maingame();
     main.gameFunction = new GameFunction(main);
     $('.tile').on('click', main.clickTile);
     $('.board').on('click', '.frog', main.clickFrog);
-    player = new Players()
+    player1 = new Players('Green Rider');
+    player2 = new Players('Purple Rider');
+    main.player1 = player1;
+    main.player2 = player2;
 }
 
 class Maingame {
@@ -41,15 +45,19 @@ class Maingame {
         this.row = data.row;
         this.column = data.column;
         this.frogTile;
+        this.frogUp;
         this.jumpUpTile;
         this.jumpUpTileDataRow;
         this.jumpUpTileDataColumn;
+        this.frogDown;
         this.jumpDownTile;
         this.jumpDownTileDataRow;
         this.jumpDownTileDataColumn;
+        this.frogLeft;
         this.jumpLeftTile;
         this.jumpLeftTileDataRow;
         this.jumpLeftTileDataColumn;
+        this.frogRight;
         this.jumpRightTile;
         this.jumpRightTileDataRow;
         this.jumpRightTileDataColumn;
@@ -83,51 +91,6 @@ clickFrog(event) {
         this.firstFrogClicked = $(event.target);
 
         $(this.firstFrogClicked).css('box-shadow', '0 0 20px yellow')
-    }
-}
-
-frogUp() {
-    if (this.jumpedUpFrog === true) {
-        if (player1 === true || player2 === true) {
-            points++;
-        }
-    }
-    updatePoints();
-    changeTurns();
-    console.log('Point added for jump up');
-}
-
-frogDown() {
-    if (this.jumpedDownFrog === true) {
-        if (player1 === true || player2 === true) {
-            points++;
-        }
-    }
-    updatePoints();
-    changeTurns();
-    console.log('Point added for jump down');
-}
-
-frogLeft() {
-    if (this.jumpedLeftFrog === true) {
-        if (player1 === true || player2 === true) {
-            points++;
-        }
-    }
-    updatePoints();
-    changeTurns();
-    $('.')
-    console.log('Point added for jump left');
-}
-
-frogRight() {
-    if (this.jumpedRightFrog === true) {
-        if (player1 === true || player2 === true) {
-            points++;
-        }
-        updatePoints();
-        changeTurns();
-        console.log('Point added for jump right');
     }
 }
 }

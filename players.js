@@ -10,6 +10,7 @@ function startApp(){
     player1.currentPlayer = true;
     player2.currentPlayer = false;
     playerTurn = true;
+    $('.playerOne').css('box-shadow', '0 0 30px yellow')
   
 }
 class Players{
@@ -23,43 +24,49 @@ class Players{
         this.setCurrentPlayer = this.setCurrentPlayer.bind(this);
         this.changeTurns = this.changeTurns.bind(this);
         this.domElement = null;
+        this.frogTile = $('<div>').addClass('playerFrogs')
 
         
     }    
     setCurrentPlayer(){
         
         if (player1.currentPlayer === true){
+            $('.playerOne').css('box-shadow', 'none')
+            $('.playerTwo').css('box-shadow', '0 0 30px yellow')
+            $('.playerOne .frogContainer').append($('<div>').addClass('playerFrogs'))
             player2.currentPlayer = true;
             player1.currentPlayer = false;
         }else if(player2.currentPlayer === true){
+            $('.playerTwo').css('box-shadow', 'none')
+            $('.playerOne').css('box-shadow', '0 0 30px yellow')
+            $('.playerTwo .frogContainer').append($('<div>').addClass('playerFrogs'))
             player1.currentPlayer = true;
             player2.currentPlayer = false;      
         }
         
-        // updatePoints();
     }
     changeTurns(){
-        // debugger;
         if(player1.currentPlayer === true){
             player1.trophy.points++;
+            this.updatePoints();
             this.setCurrentPlayer();
 
         }else if(player2.currentPlayer === true){
             player2.trophy.points++;
+            this.updatePoints();
             this.setCurrentPlayer();
         }
 
     }
     updatePoints(){
-        $('.points .value').text(points)
-        if(this.jumpedFrogUp || this.jumpedFrogDown || this.jumpedFrogLeft || this.jumpedFrogRight === true){
-            // points++;
-        }
-        
+        if(player1.currentPlayer === true){
+            $('.value1').text(player1.trophy.points);
+        }else if(player2.currentPlayer === true){
+            $('.value2').text(player2.trophy.points);
+        }       
     }
     changeTrophyPoints(){
       
-        // this.trophy.points += 1;
         if(this.trophy.points >= 13){
             if(this.trophy.points == 13){
             $('#modal').toggleClass('hide');
@@ -68,13 +75,7 @@ class Players{
         }
         return this.trophy.points;
     }
-    winCondition(player1, player2){
-        if(player1.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }else if( player2.trophy.points >= 13){
-            $('#modal').toggleClass('hide');
-        }
-    }
+    
     render(){
         this.domElement = $('<div>')
             .addClass('front')
@@ -85,11 +86,5 @@ class Players{
 }
 
 
-// var player = [new Players("Green Rider"), new Players("Purple Rider")];
-// this.currentPlayer = player[0];
-// this.opposingPlayer = player[1];
-
-// }else if(this.name !== 'Purple Rider')
-// return player[0];
 
 
