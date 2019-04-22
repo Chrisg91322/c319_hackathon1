@@ -190,9 +190,9 @@ removeFrogs () {
 }
 
 checkLegalJumps() {
+    this.game.gameFunction.resetTiles();
     if (this.game.frogUp === 1 && this.game.frogUp !== undefined) {
         if (this.game.jumpUp === 0 && this.game.jumpUp !== undefined) {
-            this.game.gameFunction.resetTiles();
             $(this.game.jumpUpTile).css('box-shadow', 'none')
             this.game.jumpUpTile = ('.tile[data-row = "' + (this.game.row - 2) + '"][data-column ="' + this.game.column + '"]')
             this.game.targetUpTile = this.game.jumpUpTile;
@@ -208,7 +208,6 @@ checkLegalJumps() {
     }
     if (this.game.frogDown === 1 && this.game.frogDown !== undefined) {
         if (this.game.jumpDown === 0 && this.game.jumpDown !== undefined) {
-            this.game.gameFunction.resetTiles();
             $(this.game.jumpDownTile).css('box-shadow', 'none')
             this.game.jumpDownTile = $('.tile[data-row = "' + (this.game.row + 2) + '"][data-column ="' + this.game.column + '"]')
             this.game.targetDownTile = this.game.jumpDownTile;
@@ -223,7 +222,6 @@ checkLegalJumps() {
     }
     if (this.game.frogLeft === 1 && this.game.frogLeft !== undefined) {
         if (this.game.jumpLeft === 0 && this.game.jumpLeft !== undefined) {
-            this.game.gameFunction.resetTiles();
             $(this.game.jumpLeftTile).css('box-shadow', 'none')
             this.game.jumpLeftTile = $('.tile[data-row = "' + this.game.row + '"][data-column ="' + (this.game.column - 2) + '"]')
             this.game.targetLeftTile = this.game.jumpLeftTile;
@@ -238,7 +236,6 @@ checkLegalJumps() {
     }
     if (this.game.frogRight === 1 && this.game.frogRight !== undefined) {
         if (this.game.jumpRight === 0 && this.game.jumpRight !== undefined) {
-            this.game.gameFunction.resetTiles();
             $(this.game.jumpRightTile).css('box-shadow', 'none')
             this.game.jumpRightTile = $('.tile[data-row = "' + this.game.row + '"][data-column ="' + (this.game.column + 2) + '"]')
             this.game.targetRightTile = this.game.jumpRightTile;
@@ -252,5 +249,4 @@ checkLegalJumps() {
         }
     }
 }
-
 }

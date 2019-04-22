@@ -1,11 +1,8 @@
 $(document).ready(startApp);
 
-
+var playerTurn;
 
 function startApp(){
-    
-    player1 = new Players('Green Rider');
-    player2 = new Players('Purple Rider');
     playerTurn = true;
   
 }
